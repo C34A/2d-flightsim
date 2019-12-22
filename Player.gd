@@ -32,7 +32,10 @@ func _process(delta):
 		direction += deg2rad(TURN_SPEED) * delta
 	elif Input.is_action_pressed("pitch_down") and not Input.is_action_pressed("pitch_up"):
 		direction -= deg2rad(TURN_SPEED) * delta
-
+	if(Input.is_action_pressed("boost")):
+#		apply_force((
+		pass
+	
 	direction = clamp(direction, PI / -2, PI / 2)
 	
 	
@@ -60,8 +63,17 @@ func lift(velocity: Vector2, direction: float, delta: float) -> float:
 		AoA = direction - atan2(velocity.y, abs(velocity.x))
 	else:
 		AoA = direction - atan2(velocity.y, abs(velocity.x))
+	AoA = rad2deg(AoA)
 	print("AoA ", AoA)
-	var lift: float = LIFT_COEF * velocity.length() * velocity.length() * (AoA - pow(1.1, AoA) + 1)
+	var lift: float
+	
+	if(AoA > 50 || AoA < -50):
+#		lift = LIFT_COEF * velocity.length() * velocity.length() * max((AoA - pow(1.3, AoA - 40)), 0)
+		lift = 0
+	else:
+		lift = LIFT_COEF * velocity.length() * velocity.length() * (deg2rad(AoA))
+
+	
 	print("lift ", lift)
 	return lift
 
