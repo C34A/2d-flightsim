@@ -18,7 +18,7 @@ _global_script_class_icons={
 config/name="plane game"
 run/main_scene="res://Main.tscn"
 boot_splash/fullsize=false
-boot_splash/bg_color=Color( 0.0745098, 0.0745098, 0.0745098, 1 )
+boot_splash/bg_color=Color( 0.662745, 0.662745, 0.662745, 1 )
 config/icon="res://icon.png"
 
 [display]

@@ -14,7 +14,7 @@ var direction: float
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	velocity = Vector2(0.01, 0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -33,8 +33,8 @@ func _process(delta):
 	elif Input.is_action_pressed("pitch_down") and not Input.is_action_pressed("pitch_up"):
 		direction -= deg2rad(TURN_SPEED) * delta
 	if(Input.is_action_pressed("boost")):
-#		apply_force((
-		pass
+		var dirVec: Vector2 = Vector2(sign(velocity.x), 0).rotated(sign(velocity.x) * direction)
+		apply_force(dirVec, THRUST * 2, delta)
 	
 	direction = clamp(direction, PI / -2, PI / 2)
 	
@@ -42,7 +42,7 @@ func _process(delta):
 	apply_force(Vector2(0,1), lift(velocity, direction, delta), delta)
 	
 #	print("dir ", direction)
-	print("vel ", velocity)
+#	print("vel ", velocity)
 #	print("mass ", mass)
 	global_translate(Vector2(velocity.x, -velocity.y) * delta)
 	if(velocity.x < 0):
@@ -64,7 +64,7 @@ func lift(velocity: Vector2, direction: float, delta: float) -> float:
 	else:
 		AoA = direction - atan2(velocity.y, abs(velocity.x))
 	AoA = rad2deg(AoA)
-	print("AoA ", AoA)
+#	print("AoA ", AoA)
 	var lift: float
 	
 	if(AoA > 50 || AoA < -50):
@@ -74,7 +74,7 @@ func lift(velocity: Vector2, direction: float, delta: float) -> float:
 		lift = LIFT_COEF * velocity.length() * velocity.length() * (deg2rad(AoA))
 
 	
-	print("lift ", lift)
+#	print("lift ", lift)
 	return lift
 
 func apply_force(direction: Vector2, force: float, delta: float) -> void:
